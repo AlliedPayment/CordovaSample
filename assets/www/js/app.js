@@ -27,14 +27,11 @@
         activate();
 
         function activate() {
-            ssoService.getData(config.ssoRequest)
-                .then(
-                //Success
-                function(data) {
-                    vm.data = data;
-                    vm.jsonStr = JSON.stringify(data);
-                    sso();
-                }, onError);
+           //get URL parameter named SSO
+          var ssoParam = decode('sso');
+          
+          // set url to iframe src
+          vm.url = ssoParam;
         }
 
 
@@ -77,6 +74,18 @@
                     vm.jsonStr = JSON.stringify(data);
                 }, onError);
         }
+
+        function decode(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            var results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            var encoded = results[2];
+            var decoded = decodeURIComponent(encoded.replace(/\+/g, ' '));
+            return decoded;
+          }
 
     }
 } (Config));

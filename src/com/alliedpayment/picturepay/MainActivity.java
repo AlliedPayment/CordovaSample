@@ -34,8 +34,8 @@ public class MainActivity extends CordovaActivity
         if (extras != null && extras.getBoolean("cdvStartInBackground", false)) {
             moveTaskToBack(true);
         }
-
+        String launchUrlWithParameter = launchUrl + "?sso=PUT_SSO_URL_HERE";
         // Set by <content src="index.html" /> in config.xml
-        loadUrl(launchUrl);
+        loadUrl(launchUrlWithParameter);
     }
 }
