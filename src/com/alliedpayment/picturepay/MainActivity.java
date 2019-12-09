@@ -19,23 +19,26 @@
 
 package com.alliedpayment.picturepay;
 
+import android.content.Intent;
 import android.os.Bundle;
 import org.apache.cordova.*;
 
-public class MainActivity extends CordovaActivity
-{
+public class MainActivity extends CordovaActivity {
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent intent = getIntent();
+        intent.putExtra("loadUrlTimeoutValue", 120000);
         // enable Cordova apps to be started in the background
-        Bundle extras = getIntent().getExtras();
+        Bundle extras = intent.getExtras();
         if (extras != null && extras.getBoolean("cdvStartInBackground", false)) {
             moveTaskToBack(true);
         }
-
-        // Set by <content src="index.html" /> in config.xml
-        loadUrl(launchUrl);
+        //Get url from some external source
+        String ssoUrl = "https://billpay.demo.alliedpayment.com/BillPay/sso?IV=DYVVH3Yfm_knj4J0PrvKmg,,&ssoToken=G911Ukpo80ULwcgU4gnIDc2FILh3M-fXrTCDOjEozd_ykstsGP-Jc832kF0NnMNgOdBPeROrwbJc0stJdz-Z5Cav402vkRpV4syGqhdfd1gbU_dDUHPRQ8XJuyPdmB-fB0zCwQfzURc2GXjczpSX7g,,&signature=D217640A295080C0B3BFE824E2EDEC90551E2EDF";
+        // launchUrl Set by <content src="index.html" /> in config.xml
+        String launchUrlWithParameter = launchUrl + "?sso=" + ssoUrl;
+        loadUrl(launchUrlWithParameter);
     }
 }
